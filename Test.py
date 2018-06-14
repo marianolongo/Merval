@@ -1,8 +1,5 @@
 from selenium import webdriver
-import selenium.webdriver.support.ui as ui
-from selenium.webdriver.common.keys import Keys
-from time import sleep
-import datetime
+import time
 
 
 class Test:
@@ -21,13 +18,13 @@ class Test:
     def titles(self):
         titles_element = self.driver.find_elements_by_xpath("//article[contains(@class,'portada-article-titulo')]")
         href_list = [title.find_element_by_css_selector('a').get_attribute('href') for title in titles_element]
-        all_body_title = " "
-        for i in range(0, href_list.__len__() - 21):
+        all_body_title = ""
+        for i in range(0, href_list.__len__() - 1):
             self.driver.get(href_list[i])
             title = self.driver.find_element_by_xpath("//header[contains(@class,'titulo-noticia')]")
             body = self.driver.find_element_by_xpath(
                 "//article[contains(@class,'container-fluid despliegue-noticia')]")
-            all_body_title = all_body_title + '\n' + "TITLE: " + title.text + '\n' + body.text + '\n'
+            all_body_title = all_body_title + '\n' + "TITLE: " + title.text + '\n' + "Body:" + '\n' + body.text + '\n'
             # with open(title.text + '.txt', 'w+') as file:
             #     file.write(title.text)
             #     file.write(body.text)
@@ -42,4 +39,7 @@ class Test:
 
 if __name__ == '__main__':
     test = Test()
+    start = time.time()
     test.run()
+    end = time.time()
+    print("Time required: " + str(end - start))
